@@ -23,7 +23,7 @@ This example is playful but we've used this technique internally to find clips f
 
 ## Run GVS (locally)
 
-> Hate reading? [Click here for the 🎬Video Walkthrough🎬](https://www.youtube.com)
+> Hate reading? [Click here for the 🎬Video Walkthrough🎬](https://youtu.be/-kRxs7mrRXU)
 
 We suggest you stick to local usage/development, as large video uploads tend to complicate deployments.
 
@@ -60,6 +60,6 @@ The UI can handle both single (##:##) and ranged (##:##-##:##) timestamps, with 
 
 ![Pad and duration](public/pad-duration.png)
 
-See [src/Gemini.tsx]() for the UI implementation and handling of timecodes in responses, and [server/gemini.js]() for the API calls we make. The server component is necessary as the File API uses node `fs` commands that are unavailable on the client. More *adventurous* devs could by pass this by wrapping the [media.upload](https://ai.google.dev/api/rest/v1beta/media/upload) call itself :)
+See [src/Gemini.tsx](https://github.com/trippedout/gemini-video-scrubber/blob/main/src/Gemini.tsx) for the UI implementation and handling of timecodes in responses, and [server/gemini.js](https://github.com/trippedout/gemini-video-scrubber/blob/main/server/gemini.js) for the API calls we make. The server component is necessary as the File API uses node `fs` commands that are unavailable on the client. More *adventurous* devs could by pass this by wrapping the [media.upload](https://ai.google.dev/api/rest/v1beta/media/upload) call itself :)
 
-Made in collab with the legendary [GrantCuster](https://github.com/GrantCuster), who won the React vs Svelte battle *this time* 😀
+Made in collab with the legendary [GrantCuster](https://github.com/GrantCuster), who won the React vs Svelte battle *this time* 😀 
