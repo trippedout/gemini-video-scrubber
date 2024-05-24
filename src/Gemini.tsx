@@ -4,6 +4,7 @@ import {
   videoFileAtom,
   uploadResultAtom,
   timestampTextAtom,
+  processedVideoAtom
 } from "./atoms";
 import { FileMetadataResponse } from "@google/generative-ai/files";
 import { useAtom } from "jotai";
@@ -27,6 +28,7 @@ export function Gemini() {
   const [prompt, setPrompt] = useAtom(promptAtom);
   const [uploadResult, setUploadResult] = useAtom(uploadResultAtom);
   const [, setTimestampText] = useAtom(timestampTextAtom);
+  const [processedVideos, setProcessedVideos] = useAtom(processedVideoAtom);
 
   const enum UploadState {
     Waiting = "",
@@ -45,7 +47,7 @@ export function Gemini() {
 
   const CONCISE_PROMPT = "ONLY return the timestamps (in the format ##:##) and the descriptions, with no added commentary."
   const [useConcise, setUseConcise] = useState(true);
-  let sendingPrompt = false;
+  const [sendingPrompt, setSendingPrompt] = useState(false);
 
   const handleUploadClick = async () => {
     console.log("upload:", videoFile);
@@ -75,6 +77,7 @@ export function Gemini() {
       const state = progressResult.progress.state;
       console.log("progress:", state);
       if (state == "ACTIVE") {
+
         setState((_) => UploadState.Processed);
       } else if (state == "FAILED") {
         setState((_) => UploadState.Failure);
@@ -93,7 +96,7 @@ export function Gemini() {
 
   const sendPrompt = async () => {
     if (state == UploadState.Processed && !sendingPrompt) {
-      sendingPrompt = true;
+      setSendingPrompt(true);
 
       let p = prompt;
       if (useConcise) {
@@ -110,7 +113,7 @@ export function Gemini() {
           model
         }),
       );
-      sendingPrompt = false;
+      setSendingPrompt(false);
       const modelResponse = response.text;
       setTimestampText(modelResponse.trim());
     }
@@ -145,7 +148,7 @@ export function Gemini() {
           />
           <button
             className="absolute top-2 right-2 bg-gray-500 enabled:hover:bg-gray-800 disabled:opacity-25 font-bold py-2 px-4 rounded"
-            disabled={state != UploadState.Processed}
+            disabled={state != UploadState.Processed || sendingPrompt}
             onClick={sendPrompt}
           >Prompt!
           </button>

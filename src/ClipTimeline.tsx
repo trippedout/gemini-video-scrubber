@@ -60,7 +60,7 @@ export function ClipTimeline() {
         return (
           <div
             key={`${range}-${i}`}
-            className="absolute bg-neutral-500 h-8 pointer-events-none"
+            className="absolute bg-neutral-500 h-8 pointer-events-none border-l-2 border-neutral-600"
             style={{
               width: visWidth,
               top: 0,

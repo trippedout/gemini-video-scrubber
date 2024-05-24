@@ -1,4 +1,5 @@
 import { FileMetadataResponse } from "@google/generative-ai/files";
+import { atomWithStorage } from "jotai/utils"
 import { atom } from "jotai";
 
 export const videoFileAtom = atom<File | null>(null);
@@ -17,3 +18,4 @@ export const timeoutRefAtom = atom<{ current: number }>({ current: 0 });
 export const isPlayingAllAtom = atom<boolean>(false);
 export const uploadResultAtom = atom<FileMetadataResponse | null>(null);
 export const promptAtom = atom<string>("");
+export const processedVideoAtom = atomWithStorage('processedVideos', [])
