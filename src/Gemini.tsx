@@ -45,7 +45,7 @@ export function Gemini() {
   }
   const [model, setModel] = useState(MODEL.Gemini);
 
-  const CONCISE_PROMPT = "ONLY return the timestamps (in the format ##:##) and the descriptions, with no added commentary."
+  const CONCISE_PROMPT = "ONLY return the timestamps (in the format ##:##) and the descriptions, with no added commentary. start each line with the timestamp in mm:ss format."
   const [useConcise, setUseConcise] = useState(true);
   const [sendingPrompt, setSendingPrompt] = useState(false);
 
