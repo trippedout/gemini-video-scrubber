@@ -10,6 +10,7 @@ import {
   videoElAtom,
 } from "./atoms";
 import { parseTimestamps, timestampToSeconds } from "./utils";
+import React from 'react';
 
 export function Controls() {
   const [videoEl] = useAtom(videoElAtom);
@@ -23,6 +24,7 @@ export function Controls() {
   const setPlayPosition = useSetAtom(playPositionAtom);
   const [isPlayingAll, setIsPlayingAll] = useAtom(isPlayingAllAtom);
   const [defaultDuration] = useAtom(timestampDefaultDurationAtom);
+  const [currentTime, setCurrentTime] = React.useState("00:00");
 
   const timestamps = parseTimestamps(timestampText);
   const timestampSeconds = timestamps.map((tobject) => {
@@ -36,6 +38,22 @@ export function Controls() {
   });
 
   const player = videoEl!;
+
+  React.useEffect(() => {
+    const updateTime = () => {
+      if (player) {
+        const time = player.currentTime;
+        const minutes = Math.floor(time / 60);
+        const seconds = Math.floor(time % 60);
+        setCurrentTime(`${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`);
+      }
+    };
+
+    player?.addEventListener('timeupdate', updateTime);
+    return () => {
+      player?.removeEventListener('timeupdate', updateTime);
+    };
+  }, [player]);
 
   return (
     <div className="flex justify-between select-none">
@@ -143,6 +161,9 @@ export function Controls() {
               setTimestampDefaultDuration(value);
             }}
           />
+        </div>
+        <div className="px-2 py-1 bg-neutral-600 flex items-center">
+          <span>Current Time: {currentTime}</span>
         </div>
       </div>
     </div>
